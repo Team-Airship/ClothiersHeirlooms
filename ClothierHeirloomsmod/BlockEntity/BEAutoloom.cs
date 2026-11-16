@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClothierHeirloomsmod.Crafting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace ClothierHeirloomsmod.NSBlockEntity
     {
 
         public int inputnum = ClothierHeirloomsmodModSystem.Config?.LoomInput ?? 3;
-        public int outputnum = ClothierHeirloomsmodModSystem.Config?.LoomOutput ?? 2;
+        public int outputnum = ClothierHeirloomsmodModSystem.Config?.LoomOutput ?? 1;
 
         //static int inputnum = 3;
         //static int outputnum = 2;
@@ -382,6 +383,7 @@ namespace ClothierHeirloomsmod.NSBlockEntity
                 inputGrindTime = 0.0f;
                 MarkDirty();
             }
+            FindMatchingRecipe();
         }
         internal MeshData GenAxleMesh()
         {
@@ -520,15 +522,45 @@ namespace ClothierHeirloomsmod.NSBlockEntity
         public ItemSlot InputSlot => inventory[0];
         public ItemSlot OutputSlot => inventory[1];
 
-        public ItemStack InputGrindProps
+        public ItemStack InputGrindProps;
+        //{
+        //    get
+        //    {
+        //        ItemSlot slot = inventory[0];
+        //        if (slot.Itemstack == null || slot.Itemstack.Collectible.Code != "flaxtwine" || slot.Itemstack.StackSize < inputnum)
+        //            return null;
+        //        return new ItemStack(Api.World.GetBlock(new AssetLocation("game:linen-normal-down")), outputnum);
+        //    }
+        //}
+
+        private bool FindMatchingRecipe()
         {
-            get
+            ItemSlot[] inputSlots = { InputSlot };
+            InputGrindProps = null;
+
+            foreach (var recipe in Api.GetAutoloomRecipes())
             {
-                ItemSlot slot = inventory[0];
-                if (slot.Itemstack == null || slot.Itemstack.Collectible.Code != "flaxtwine" || slot.Itemstack.StackSize < inputnum)
-                    return null;
-                return new ItemStack(Api.World.GetBlock(new AssetLocation("game:linen-normal-down")), outputnum);
+
+                if (recipe.Matches(inputSlots))
+                {
+                    InputGrindProps = recipe.Output.ResolvedItemStack;
+
+                    if (Api?.Side == EnumAppSide.Server)
+                    {
+                        //recipe.TryCraftNow(Api, 0, inputSlots);
+                        MarkDirty(true);
+                        Api.World.BlockAccessor.MarkBlockEntityDirty(Pos);
+                    }
+
+                    if (Api?.Side == EnumAppSide.Client)
+                    {
+                        MarkDirty(true);
+                    }
+
+                    return true;
+                }
             }
+            return false;
         }
 
     }

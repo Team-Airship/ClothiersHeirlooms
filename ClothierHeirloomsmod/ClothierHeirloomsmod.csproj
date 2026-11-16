@@ -21,14 +21,6 @@
   <Content Include="assets\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </Content>
-  <Compile Remove="assets\clothierheirloomsmod\recipes\autoloom\**" />
-  <Compile Remove="assets\clothierheirloomsmod\recipes\spinner\**" />
-  <Content Remove="assets\clothierheirloomsmod\recipes\autoloom\**" />
-  <Content Remove="assets\clothierheirloomsmod\recipes\spinner\**" />
-  <EmbeddedResource Remove="assets\clothierheirloomsmod\recipes\autoloom\**" />
-  <EmbeddedResource Remove="assets\clothierheirloomsmod\recipes\spinner\**" />
-  <None Remove="assets\clothierheirloomsmod\recipes\autoloom\**" />
-  <None Remove="assets\clothierheirloomsmod\recipes\spinner\**" />
   <Content Include="modinfo.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </Content>

@@ -1,0 +1,12 @@
+{
+  "code": "Basic",
+  "name": "linin",
+  "ingredient": {
+    "type": "item",
+    "code": "game:flaxtwine"
+  },
+  "output": {
+    "type": "block",
+    "code": "game:linen-normal-down"
+  }
+}

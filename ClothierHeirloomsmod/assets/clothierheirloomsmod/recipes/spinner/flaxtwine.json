@@ -1,0 +1,12 @@
+{
+  "code": "Basic",
+  "name": "flaxtwine",
+  "ingredient": {
+    "type": "item",
+    "code": "game:flaxfibers"
+  },
+  "output": {
+    "type": "item",
+    "code": "game:flaxtwine"
+  }
+}
